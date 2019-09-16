@@ -1,7 +1,7 @@
 INF200 Exersices:
 =================
 
-Elin Bjoernson
+Elin Bjoernson:
 -------------------
 
 This repository contains all the exersices written as part of the
