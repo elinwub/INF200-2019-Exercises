@@ -14,5 +14,6 @@ def squares_by_loop(n):
 
 
 if __name__ == '__main__':
-    if squares_by_comp() != squares_by_loop():  # Skal jeg fylle inn n her?
+    num = 7
+    if squares_by_comp(num) != squares_by_loop(num):  # Skal jeg fylle inn n her?
         print('ERROR')

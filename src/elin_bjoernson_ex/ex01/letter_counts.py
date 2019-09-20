@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-
-
 def letter_freq(txt):
     txt = txt.lower()  # make all letters lowercase
     txt = sorted(txt)  # sort alphabetically

@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+
+
 SUITS = ('C', 'S', 'H', 'D')
 VALUES = range(1, 14)
 
