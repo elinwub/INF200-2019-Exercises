@@ -1,7 +1,13 @@
 # -*- coding: utf-8 -*-
+
+
+def sorted(txt):
+    for letter, count in sorted(frequencies.items()):
+
+
 def letter_freq(txt):
     txt = txt.lower()  # make all letters lowercase
-    txt = sorted(txt)  # sort alphabetically
+    #txt = sorted(txt)  # sort alphabetically
     characters = {}    # make a dictionary to sort letters
     for character in txt:
         if character in characters.keys():
