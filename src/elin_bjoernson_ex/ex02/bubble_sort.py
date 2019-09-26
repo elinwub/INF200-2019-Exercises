@@ -7,7 +7,7 @@ def bubble_sort(numbers):
         for idx, num in enumerate(new_list):
             if idx == len(new_list)-1:  # if last element, do nothing
                 pass
-            elif num > new_list[idx+1]:  # if higher value than next element, exchange them
+            elif num > new_list[idx+1]:  # exchange if higher value than next
                 new_list.insert(idx+1, new_list.pop(idx))
     return new_list
 

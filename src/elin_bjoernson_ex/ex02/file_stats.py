@@ -4,7 +4,8 @@
 def char_counts(textfilename):
     infile = open(textfilename, encoding='utf-8')
     file_string = infile.read().strip()  # reads file and removes whitespace
-    character_count = {i: 0 for i in list(range(256))}  # make dictionary of utf-codes with count 0
+    # make dictionary of utf-codes with count 0
+    character_count = {i: 0 for i in list(range(256))}
     for c in file_string:
         character_count[ord(c)] += 1
     result = list(character_count.values())
