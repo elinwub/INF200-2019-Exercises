@@ -1,24 +1,20 @@
 # -*- coding: utf-8 -*-
-
-
-def sorted(txt):
-    for letter, count in sorted(frequencies.items()):
+from collections import Counter
+import math
 
 
 def letter_freq(txt):
-    txt = txt.lower()  # make all letters lowercase
-    #txt = sorted(txt)  # sort alphabetically
-    characters = {}    # make a dictionary to sort letters
-    for character in txt:
-        if character in characters.keys():
-            characters[character] += 1
-        else:
-            characters[character] = 1
-    return characters
+    return Counter(txt.lower())
 
 
 def entropy(message):
-    pass
+    # make a dictionary for letters and letter count
+    letters = letter_freq(message)
+    # calculate frequency for every letter in message
+    frequency = [letters[character] / len(message) for character in letters]
+    # calculate entropy of message
+    ent = -sum([freq * math.log(freq, 2) for freq in frequency])
+    return ent
 
 
 if __name__ == "__main__":
