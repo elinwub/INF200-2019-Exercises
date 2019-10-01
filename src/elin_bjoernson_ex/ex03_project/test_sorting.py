@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
+import pytest
 
-__author__ = 'Elin Bjoernson'
-__email__ = 'elinbj@nmbu.no'
+__author__ = "Elin Bjoernson"
+__email__ = "elinbj@nmbu.no"
 
 
 def bubble_sort(numbers):
@@ -15,6 +16,18 @@ def bubble_sort(numbers):
     return new_list
 
 
+@pytest.fixture
+def example_list():
+    return [3, 5, 1, 2, 7, 0]
+
+
+def is_sorted(iterable):  # function that checks if its sorted
+    for small, large in zip(iterable[:-1], iterable[1:]):
+        if small > large:
+            return False
+    return True
+
+
 def test_empty():
     """Test that the sorting function works for empty list"""
     assert bubble_sort([]) == []
@@ -25,7 +38,7 @@ def test_single():
     assert bubble_sort([1]) == [1]
 
 
-def test_sorted_is_not_original():
+def test_sorted_is_not_original(example_list):
     """
     Test that the sorting function returns a new object.
 
@@ -37,12 +50,11 @@ def test_sorted_is_not_original():
     Now sorted_data shall be a different object than data,
     not just another name for the same object.
     """
-    data = [3, 2, 1]
-    sorted_data = bubble_sort(data)
-    assert sorted_data != data
+    sorted_data = bubble_sort(example_list)
+    assert sorted_data != example_list
 
 
-def test_original_unchanged():
+def test_original_unchanged(example_list):
     """
     Test that sorting leaves the original data unchanged.
 
@@ -53,30 +65,27 @@ def test_original_unchanged():
 
     Now data shall still contain [3, 2, 1].
     """
-    data = [3, 2, 1]
-    bubble_sort(data)
-    assert data == [3, 2, 1]
+    bubble_sort(example_list)
+    assert example_list == [3, 5, 1, 2, 7, 0]
 
 
-def test_sort_sorted():
+def test_sort_sorted(example_list):
     """Test that sorting works on sorted data."""
-    data = [1, 2, 3]
-    sorted_data = bubble_sort(data)
+    sorted_data = bubble_sort(example_list)
     sort_sorted = bubble_sort(sorted_data)
     assert sort_sorted == sorted_data
 
 
-def test_sort_reversed():
+def test_sort_reversed(example_list):
     """Test that sorting works on reverse-sorted data."""
-    data = [1, 3, 2]
-    reverse_sorted = bubble_sort(data)[::-1]
-    assert bubble_sort(reverse_sorted) == sorted(data)
+    reverse_sorted = bubble_sort(example_list)[::-1]
+    assert is_sorted(bubble_sort(reverse_sorted))
 
 
 def test_sort_all_equal():
     """Test that sorting handles data with identical elements."""
     data = [1, 2, 1]
-    assert bubble_sort(data) == sorted(data)
+    assert is_sorted(bubble_sort(data))
 
 
 def test_sorting():
@@ -94,4 +103,4 @@ def test_sorting():
             [9, 2, 88, 3, 10, 22])
     for numbers in data:
         sorted_data = bubble_sort(numbers)
-        assert sorted_data == sorted(numbers)
+        assert is_sorted(sorted_data)
