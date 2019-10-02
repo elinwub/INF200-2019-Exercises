@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 import pytest
-#from .median import median
+import statistics
+
 __author__ = "Elin Bjoernson"
 __email__ = "elinbj@nmbu.no"
 
-# function from exercise text
+
 def median(data):
     """
-    Returns median of data.
+    Returns median of data. Function from exercise text
 
     :param data: An iterable of containing numbers
     :return: Median of data
@@ -15,12 +16,19 @@ def median(data):
 
     sorted_data = sorted(data)
     num_elements = len(sorted_data)
-    if num_elements % 2 == 1:
-        return sorted_data[num_elements // 2]
-    else:
+    if num_elements == 0:
+        raise ValueError('empty list')
+    if num_elements % 2 == 1:  # if odd number
+        return sorted_data[num_elements // 2]  # return number in middle
+    else:  # if even number
         return (
             sorted_data[num_elements // 2 - 1] + sorted_data[num_elements // 2]
-        ) / 2
+        ) / 2  # return average of two middle numbers
+
+
+@pytest.fixture
+def example_list():
+    return [3, 5, 1, 2, 7, 0]
 
 
 def test_median_of_singleton():
@@ -32,45 +40,47 @@ def test_median_raises_value_error_on_empty_list():
     ValueError exception"""
     with pytest.raises(ValueError):
         median([])
-    # supposed to fail?
-    #samme som:
-    #try:
-    #    median([])
-    #except ValueError:
-    #    pass
-    #else:
-    #    assert False
 
 
 def test_odd_numbers():
     """Tests that median works on list with odd number of elements
-    Returns
-    -------
-
     """
+    odd_list = [4, 2, 9, 3, 5]
+    assert median(odd_list) == statistics.median(odd_list)
 
 
 def test_even_numbers():
     """Tests that median works on list with even numbers of elements
     """
+    even_list = [1, 4, 5, 2]
+    assert median(even_list) == statistics.median(even_list)
 
 
-def test_ordered_numbers():
+def test_ordered_numbers(example_list):
     """Tests that median works on ordered elements
     """
+    sorted_data = sorted(example_list)
+    assert median(sorted_data) == median(example_list)
 
 
-def test_reverse_ordered_numbers():
+def test_reverse_ordered_numbers(example_list):
     """Tests that median works on reverse-ordered elements"""
+    sorted_data = sorted(example_list)
+    sorted_data.reverse()
+    assert median(sorted_data) == median(example_list)
 
-
-def test_unordered_numbers():
+def test_unordered_numbers(example_list):
     """Tests that median works on unordered elements"""
+    assert median(example_list) == statistics.median(example_list)
 
 
-def test_original_unchanged():
+def test_original_unchanged(example_list):
     """Tests that median function leaves the original data unchanged"""
+    median(example_list)
+    assert example_list == [3, 5, 1, 2, 7, 0]
 
 
 def test_tuples():
     """Tests that median function works for tuples"""
+    tuple_data = (1, 8, 2, 3, 5)
+    assert median(tuple_data) == statistics.median(tuple_data)
