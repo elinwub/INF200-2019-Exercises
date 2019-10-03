@@ -42,13 +42,6 @@ def test_sorted_is_not_original(example_list):
     """
     Test that the sorting function returns a new object.
 
-    Consider
-
-    data = [3, 2, 1]
-    sorted_data = bubble_sort(data)
-
-    Now sorted_data shall be a different object than data,
-    not just another name for the same object.
     """
     sorted_data = bubble_sort(example_list)
     assert sorted_data != example_list
