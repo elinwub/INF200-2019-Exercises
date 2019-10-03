@@ -58,22 +58,15 @@ def test_original_unchanged(example_list):
     """
     Test that sorting leaves the original data unchanged.
 
-    Consider
-
-    data = [3, 2, 1]
-    sorted_data = bubble_sort(data)
-
-    Now data shall still contain [3, 2, 1].
     """
     bubble_sort(example_list)
     assert example_list == [3, 5, 1, 2, 7, 0]
 
 
-def test_sort_sorted(example_list):
+def test_sort_sorted():
     """Test that sorting works on sorted data."""
-    sorted_data = bubble_sort(example_list)
-    sort_sorted = bubble_sort(sorted_data)
-    assert sort_sorted == sorted_data
+    data = [1, 2, 3, 4, 5]
+    assert is_sorted(bubble_sort(data))
 
 
 def test_sort_reversed(example_list):
@@ -92,9 +85,6 @@ def test_sorting():
     """
     Test sorting for various test cases.
 
-    This test case should test sorting of a range of data sets and
-    ensure that they are sorted correctly. These could be lists of
-    numbers of different length or lists of strings.
     """
     data = ([1],
             [1, 20, 3, 5],
