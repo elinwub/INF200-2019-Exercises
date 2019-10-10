@@ -44,7 +44,7 @@ def test_sorted_is_not_original(example_list):
 
     """
     sorted_data = bubble_sort(example_list)
-    assert sorted_data != example_list
+    assert sorted_data is not example_list
 
 
 def test_original_unchanged(example_list):
