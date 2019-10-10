@@ -1,13 +1,8 @@
 INF200 Exersices:
 =================
 
-<<<<<<< HEAD
 Elin Bjoernson:
 -------------------
-=======
-Nina Mariann Vesseltun
------------------------
->>>>>>> pa02
 
 This repository contains all the exersices written as part of the
 advanced Python programming course at NMBU.
