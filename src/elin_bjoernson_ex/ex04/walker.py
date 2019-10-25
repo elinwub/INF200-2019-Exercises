@@ -34,18 +34,17 @@ def walk(dist, pos, h):
         moves = []
         for j in range(5):
             walker = Walker(pos[i], h[i])
-            while walker.is_at_home() == False:
+            while walker.is_at_home() is False:
                 walker.move()
-
             moves.append(walker.get_steps())
-        return print(f'Distance: {dist[i]} -> Path lengths: {moves}')
+        print(f'Distance: {dist[i]} -> Path lengths: {moves}')
 
 
 if __name__ == '__main__':
     distances = [1, 2, 5, 10, 20, 50]
     initial_positions = [random.randint(0, 100) for i in range(len(distances))]
     home = [(x+y) for x, y in zip(distances, initial_positions)]
-    print(walk(distances, initial_positions, home))
+    walk(distances, initial_positions, home)
 
 
 
