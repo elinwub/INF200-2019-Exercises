@@ -37,18 +37,8 @@ if __name__ == '__main__':
     print(rand_num.rand())
     print(rand_num.rand())
 
-
     list_rand = ListRand([random.randint(0, 10) for i in range(3)])
     print(list_rand.rand())
     print(list_rand.rand())
     print(list_rand.rand())
     print(list_rand.rand())
-
-
-
-
-
-
-
-
-

@@ -43,8 +43,5 @@ def walk(dist, pos, h):
 if __name__ == '__main__':
     distances = [1, 2, 5, 10, 20, 50]
     initial_positions = [random.randint(0, 100) for i in range(len(distances))]
-    home = [(x+y) for x, y in zip(distances, initial_positions)]
-    walk(distances, initial_positions, home)
-
-
-
+    home_pos = [(x+y) for x, y in zip(distances, initial_positions)]
+    walk(distances, initial_positions, home_pos)
