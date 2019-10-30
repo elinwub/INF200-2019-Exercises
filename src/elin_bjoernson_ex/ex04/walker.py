@@ -17,10 +17,7 @@ class Walker:
         self.moves += 1
 
     def is_at_home(self):
-        if self.position == self.home:
-            return True
-        else:
-            return False
+        return self.position == self.home
 
     def get_position(self):
         return self.position
@@ -34,7 +31,7 @@ def walk(dist, pos, h):
         moves = []
         for j in range(5):
             walker = Walker(pos[i], h[i])
-            while walker.is_at_home() is False:
+            while not walker.is_at_home():
                 walker.move()
             moves.append(walker.get_steps())
         print(f'Distance: {dist[i]} -> Path lengths: {moves}')
