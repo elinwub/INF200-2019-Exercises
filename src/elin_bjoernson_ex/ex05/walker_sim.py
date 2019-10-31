@@ -4,6 +4,37 @@ __author__ = 'Elin Wølner Bjørnson'
 __email__ = 'elinbj@nmbu.no'
 
 
+class Walker:
+    def __init__(self, position, home):
+        self.position = position
+        self.home = home
+        self.moves = 0
+
+    def move(self):
+        left_or_right = [-1, 1]
+        self.position += random.choice(left_or_right)
+        self.moves += 1
+
+    def is_at_home(self):
+        return self.position == self.home
+
+    def get_position(self):
+        return self.position
+
+    def get_steps(self):
+        return self.moves
+
+
+def walk(dist, pos, h):
+    for i in range(len(dist)):
+        moves = []
+        for j in range(5):
+            walker = Walker(pos[i], h[i])
+            while not walker.is_at_home():
+                walker.move()
+            moves.append(walker.get_steps())
+        print(f'Distance: {dist[i]} -> Path lengths: {moves}')
+
 class Simulation():
     def __init__(self, start, home, seed):
         """
