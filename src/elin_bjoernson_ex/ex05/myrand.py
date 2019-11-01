@@ -4,6 +4,19 @@ __author__ = 'Elin Wølner Bjørnson'
 __email__ = 'elinbj@nmbu.no'
 
 
+class LCGRand:
+    def __init__(self, seed):
+        self.seed = seed
+
+    def rand(self):
+        """ Returns the next random number"""
+        a = 7**5
+        m = 2**31-1
+        next_num = (a * self.seed) % m
+        self.seed = next_num
+        return next_num
+
+
 class RandIter:
     def __init__(self, random_number_generator, length):
         """

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import random
 
 __author__ = 'Elin Wølner Bjørnson'
 __email__ = 'elinbj@nmbu.no'
@@ -25,17 +26,7 @@ class Walker:
         return self.moves
 
 
-def walk(dist, pos, h):
-    for i in range(len(dist)):
-        moves = []
-        for j in range(5):
-            walker = Walker(pos[i], h[i])
-            while not walker.is_at_home():
-                walker.move()
-            moves.append(walker.get_steps())
-        print(f'Distance: {dist[i]} -> Path lengths: {moves}')
-
-class Simulation():
+class Simulation:
     def __init__(self, start, home, seed):
         """
         Initialise the simulation
@@ -49,6 +40,9 @@ class Simulation():
         seed : int
             Random generator seed
         """
+        self.start = start
+        self.home = home
+        self.seed = seed
 
     def single_walk(self):
         """
@@ -59,6 +53,11 @@ class Simulation():
         int
             The number of steps taken
         """
+        single_walker = Walker(self.start, self.home)
+        while not single_walker.is_at_home():
+            random.seed(self.seed)
+            single_walker.move()
+        return single_walker.get_steps()
 
     def run_simulation(self, num_walks):
         """
@@ -74,3 +73,24 @@ class Simulation():
         list[int]
             List with the number of steps per walk
         """
+        moves = []
+        for i in range(num_walks):
+            walker = Walker(self.start, self.home)
+            while not walker.is_at_home():
+                random.seed(self.seed)
+                walker.move()
+            moves.append(walker.get_steps())
+        return moves
+
+
+if __name__ == '__main__':
+    sim1 = Simulation(0, 10, 12345)
+    print(sim1.run_simulation(20))
+    print(sim1.run_simulation(20))
+    sim2 = Simulation(0, 10, 54321)
+    print(sim2.run_simulation(20))
+    sim3 = Simulation(10, 0, 12345)
+    print(sim3.run_simulation(20))
+    print(sim3.run_simulation(20))
+    sim4 = Simulation(10, 0, 54321)
+    print(sim2.run_simulation(20))
