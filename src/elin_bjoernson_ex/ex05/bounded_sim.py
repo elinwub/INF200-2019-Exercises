@@ -65,7 +65,10 @@ class BoundedSimulation(Simulation):
         super().__init__(start, home, seed)
 
     def single_walk(self):
-        single_walker = BoundedWalker(self.start, self.home, self.left_limit, self.right_limit)
+        single_walker = BoundedWalker(self.start,
+                                      self.home,
+                                      self.left_limit,
+                                      self.right_limit)
         while not single_walker.is_at_home():
             random.seed(self.seed)
             single_walker.move()
@@ -74,7 +77,10 @@ class BoundedSimulation(Simulation):
     def run_simulation(self, num_walks):
         moves = []
         for i in range(num_walks):
-            walker = BoundedWalker(self.start, self.home, self.left_limit, self.right_limit)
+            walker = BoundedWalker(self.start,
+                                   self.home,
+                                   self.left_limit,
+                                   self.right_limit)
             while not walker.is_at_home():
                 random.seed(self.seed)
                 walker.move()
@@ -87,6 +93,3 @@ if __name__ == '__main__':
     print(sim1.run_simulation(10))
     sim2 = Simulation(0, 10, 5)
     print(sim2.run_simulation(10))
-
-
-

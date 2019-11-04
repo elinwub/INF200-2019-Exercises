@@ -36,6 +36,18 @@ class LCGRand:
     def random_sequence(self, length):
         return RandIter(self, length)
 
+    def infinite_random_sequence(self):
+        """
+        Generate an infinite sequence of random numbers.
+
+        Yields
+        ------
+        int
+            A random number.
+        """
+        while True:
+            yield self.rand()
+
 
 class RandIter:
     def __init__(self, random_number_generator, length):
@@ -66,7 +78,11 @@ class RandIter:
         RuntimeError
             If iter is called twice on the same RandIter object.
         """
-        pass
+        if self.num_generated_numbers is None:
+            self.num_generated_numbers = 0
+            return self
+        else:
+            raise RuntimeError
 
     def __next__(self):
         """
@@ -83,18 +99,15 @@ class RandIter:
             If the ``__next__`` method is called before ``__iter__``.
         StopIteration
             If ``self.length`` random numbers are generated. """
-        pass
-
-    def infinite_random_sequence(self):
-        """
-        Generate an infinite sequence of random numbers.
-
-        Yields
-        ------
-        int
-            A random number.
-        """
-        pass
+        if self.num_generated_numbers is None:
+            raise RuntimeError
+        else:
+            if self.num_generated_numbers <= self.length:
+                self.num_generated_numbers += 1
+                gen = LCGRand(self.num_generated_numbers)
+                return gen.rand()
+            else:
+                raise StopIteration
 
 
 if __name__ == '__main__':
