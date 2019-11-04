@@ -5,16 +5,36 @@ __email__ = 'elinbj@nmbu.no'
 
 
 class LCGRand:
+    slope = 7 ** 5
+    congruence_class = 2 ** 31 - 1
+
     def __init__(self, seed):
-        self.seed = seed
+        """
+        Initialise a linear congruence random number generator
+
+        Arguments
+        ---------
+        seed : int
+            The initial seed for the generator
+        """
+        self._hidden_state = seed
 
     def rand(self):
-        """ Returns the next random number"""
-        a = 7**5
-        m = 2**31-1
-        next_num = (a * self.seed) % m
-        self.seed = next_num
-        return next_num
+        """
+        Generate a single random number.
+
+        Returns
+        -------
+        int
+            A random integer
+        """
+        self._hidden_state *= self.slope
+        self._hidden_state %= self.congruence_class
+
+        return self._hidden_state
+
+    def random_sequence(self, length):
+        return RandIter(self, length)
 
 
 class RandIter:
@@ -64,3 +84,25 @@ class RandIter:
         StopIteration
             If ``self.length`` random numbers are generated. """
         pass
+
+    def infinite_random_sequence(self):
+        """
+        Generate an infinite sequence of random numbers.
+
+        Yields
+        ------
+        int
+            A random number.
+        """
+        pass
+
+
+if __name__ == '__main__':
+    generator = LCGRand(1)
+    for rand in generator.random_sequence(10):
+        print(rand)
+
+    for i, rand in enumerate(generator.infinite_random_sequence()):
+        print(f'The {i}-th random number is {rand}')
+        if i > 100:
+            break
