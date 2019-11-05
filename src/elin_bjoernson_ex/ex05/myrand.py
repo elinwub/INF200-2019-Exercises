@@ -82,7 +82,7 @@ class RandIter:
             self.num_generated_numbers = 0
             return self
         else:
-            raise RuntimeError
+            raise RuntimeError('iter is called already')
 
     def __next__(self):
         """
@@ -100,12 +100,11 @@ class RandIter:
         StopIteration
             If ``self.length`` random numbers are generated. """
         if self.num_generated_numbers is None:
-            raise RuntimeError
+            raise RuntimeError('iter has not been called')
         else:
             if self.num_generated_numbers <= self.length:
                 self.num_generated_numbers += 1
-                gen = LCGRand(self.num_generated_numbers)
-                return gen.rand()
+                return self.generator.rand()
             else:
                 raise StopIteration
 

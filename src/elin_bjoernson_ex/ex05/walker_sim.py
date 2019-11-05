@@ -75,11 +75,7 @@ class Simulation:
         """
         moves = []
         for i in range(num_walks):
-            walker = Walker(self.start, self.home)
-            while not walker.is_at_home():
-                random.seed(self.seed)
-                walker.move()
-            moves.append(walker.get_steps())
+            moves.append(self.single_walk())
         return moves
 
 

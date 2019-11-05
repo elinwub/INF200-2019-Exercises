@@ -28,13 +28,13 @@ class BoundedWalker(Walker):
         super().__init__(start, home)
 
     def move(self):
-        if self.position >= self.right_limit:
+        left_or_right = [-1, 1]
+        self.position += random.choice(left_or_right)
+        if self.position > self.right_limit:
             self.position -= 1
-        elif self.position <= self.left_limit:
+        elif self.position < self.left_limit:
             self.position += 1
         else:
-            left_or_right = [-1, 1]
-            self.position += random.choice(left_or_right)
             self.moves += 1
 
 
@@ -75,17 +75,18 @@ class BoundedSimulation(Simulation):
         return single_walker.get_steps()
 
     def run_simulation(self, num_walks):
-        moves = []
-        for i in range(num_walks):
-            walker = BoundedWalker(self.start,
-                                   self.home,
-                                   self.left_limit,
-                                   self.right_limit)
-            while not walker.is_at_home():
-                random.seed(self.seed)
-                walker.move()
-            moves.append(walker.get_steps())
-        return moves
+        super().run_simulation(num_walks)
+        # moves = []
+        # for i in range(num_walks):
+        #     walker = BoundedWalker(self.start,
+        #                            self.home,
+        #                            self.left_limit,
+        #                            self.right_limit)
+        #     while not walker.is_at_home():
+        #         random.seed(self.seed)
+        #         walker.move()
+        #     moves.append(walker.get_steps())
+        # return moves
 
 
 if __name__ == '__main__':
