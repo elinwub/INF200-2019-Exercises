@@ -75,18 +75,7 @@ class BoundedSimulation(Simulation):
         return single_walker.get_steps()
 
     def run_simulation(self, num_walks):
-        super().run_simulation(num_walks)
-        # moves = []
-        # for i in range(num_walks):
-        #     walker = BoundedWalker(self.start,
-        #                            self.home,
-        #                            self.left_limit,
-        #                            self.right_limit)
-        #     while not walker.is_at_home():
-        #         random.seed(self.seed)
-        #         walker.move()
-        #     moves.append(walker.get_steps())
-        # return moves
+        return super().run_simulation(num_walks)
 
 
 if __name__ == '__main__':
