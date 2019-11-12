@@ -15,7 +15,7 @@ class Board:
         self.goal = None
 
         if ladders & chutes & goal is not None:
-            self.board = {**ladders, **chutes}
+            self.board = {**dict(ladders), **dict(chutes)}
             self.goal = goal
 
         else:
