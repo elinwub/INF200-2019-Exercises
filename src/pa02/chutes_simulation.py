@@ -9,7 +9,7 @@ import random
 
 class Board:
     std_goal = 90
-    std_board = {1 : 40, 8: 10, 36: 52, 43: 62, 49: 79, 65: 82, 68: 85,
+    std_board = {1: 40, 8: 10, 36: 52, 43: 62, 49: 79, 65: 82, 68: 85,
                  24: 5, 33: 3, 42: 30, 56: 37, 64: 27, 74: 12, 87: 70}
 
     def __init__(self, ladders=None, chutes=None, goal=None):
@@ -127,13 +127,12 @@ class Simulation:
         :return:
         tuple (num_moves, 'player_type')
         """
-
-        for player in self.players:
-            while self.board.goal_reached(player.position) is False:
+        while self.board.goal_reached(player.position) is False:
+            for player in self.players:
                 self.turns += 1
                 player.move()
 
-            return self.turns, str(player)
+        return self.turns, str(player)
 
     def run_simulation(self):
         """
