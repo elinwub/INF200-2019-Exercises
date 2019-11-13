@@ -53,7 +53,7 @@ class Board:
 
 
 class Player:
-    def __init__(self, board):
+    def __init__(self, board=Board()):
         self.board = board
         self.position = 0
 
@@ -66,7 +66,7 @@ class Player:
 
 
 class ResilientPlayer(Player):
-    def __init__(self, board, extra_steps=1):
+    def __init__(self, board=Board(), extra_steps=1):
         super().__init__(board)
         self.extra_steps = extra_steps
         self.is_chute = False
@@ -86,7 +86,7 @@ class ResilientPlayer(Player):
 
 
 class LazyPlayer(Player):
-    def __init__(self, board, dropped_steps=1):
+    def __init__(self, board=Board(), dropped_steps=1):
         super().__init__(board)
         self.drop_steps = dropped_steps
         self.is_ladder = False
