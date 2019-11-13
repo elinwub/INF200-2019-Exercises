@@ -118,18 +118,52 @@ class Simulation:
         self.seed = random.seed(seed)
         self.randomize_players = randomize_players
         self.turns = 0
-
-    def single_game(self):
-
         if self.randomize_players is True:
             random.shuffle(self.players)
 
-        while True:
-            self.turns += 1
+    def single_game(self):
+        """
+        Runs single game, returns number of moved and the type of player who won
+        :return:
+        tuple (num_moves, 'player_type')
+        """
 
-            for player in self.players:
+        for player in self.players:
+            while self.board.goal_reached(player.position) is False:
+                self.turns += 1
                 player.move()
-                return self.board.goal_reached(player.position)
 
+            return self.turns, str(player)
 
-        return (self.turns, str(winner))
+    def run_simulation(self):
+        """
+        Runs a given number of simulations
+        """
+
+    def get_results(self):
+        """
+        Returns results from run_simulation
+        :return:
+
+        """
+
+    def winners_per_type(self):
+        """
+
+        :return:
+        dictionary mapping player types to number of wins
+        """
+
+    def durations_per_type(self):
+        """
+
+        :return:
+        dictionary mapping player types to lists of game durations of that type
+        """
+
+    def players_per_type(self):
+        """
+
+        :return:
+        Dictionary showing how many players of each type participate
+        """
