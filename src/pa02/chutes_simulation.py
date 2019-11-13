@@ -37,6 +37,18 @@ class Board:
         return position >= self.goal
 
     def position_adjustment(self, position):
+        """
+        returns 'delta position' if players lands on ladder or chute
+        else it will return 0
+
+        Parameters
+        ----------
+        position
+
+        Returns
+        -------
+        'delta position'
+        """
         return self.board.get(position, position) - position
 
 
@@ -46,6 +58,9 @@ class Player:
         self.position = 0
 
     def move(self):
+        """Moves according to die roll, and chute or ladder
+        Changes position
+        """
         self.position += randint(1, 6)
         self.position += self.board.position_adjustment(self.position)
 
