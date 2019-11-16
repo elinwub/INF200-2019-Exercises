@@ -113,7 +113,7 @@ class LazyPlayer(Player):
 class Simulation:
     def __init__(self, player_field, board=Board(), seed=1,
                  randomize_players=False):
-        self.players = player_field
+        self.players = [p() for p in player_field]
         self.board = board
         self.seed = random.seed(seed)
         self.randomize_players = randomize_players
@@ -127,12 +127,15 @@ class Simulation:
         :return:
         tuple (num_moves, 'player_type')
         """
-        while self.board.goal_reached(player.position) is False:
+        has_won = False
+
+        while has_won is False:
             for player in self.players:
                 self.turns += 1
                 player.move()
+                has_won = self.board.goal_reached(player.position)
 
-        return self.turns, str(player)
+            return self.turns, type(player).__name__
 
     def run_simulation(self):
         """
