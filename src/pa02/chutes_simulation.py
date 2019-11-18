@@ -9,7 +9,7 @@ import random
 
 class Board:
     std_goal = 90
-    std_board = {1 : 40, 8: 10, 36: 52, 43: 62, 49: 79, 65: 82, 68: 85,
+    std_board = {1: 40, 8: 10, 36: 52, 43: 62, 49: 79, 65: 82, 68: 85,
                  24: 5, 33: 3, 42: 30, 56: 37, 64: 27, 74: 12, 87: 70}
 
     def __init__(self, ladders=None, chutes=None, goal=None):
@@ -53,7 +53,7 @@ class Board:
 
 
 class Player:
-    def __init__(self, board):
+    def __init__(self, board=Board()):
         self.board = board
         self.position = 0
 
@@ -66,7 +66,7 @@ class Player:
 
 
 class ResilientPlayer(Player):
-    def __init__(self, board, extra_steps=1):
+    def __init__(self, board=Board(), extra_steps=1):
         super().__init__(board)
         self.extra_steps = extra_steps
         self.is_chute = False
@@ -86,7 +86,7 @@ class ResilientPlayer(Player):
 
 
 class LazyPlayer(Player):
-    def __init__(self, board, dropped_steps=1):
+    def __init__(self, board=Board(), dropped_steps=1):
         super().__init__(board)
         self.drop_steps = dropped_steps
         self.is_ladder = False
@@ -113,7 +113,7 @@ class LazyPlayer(Player):
 class Simulation:
     def __init__(self, player_field, board=Board(), seed=1,
                  randomize_players=False):
-        self.players = player_field
+        self.players = [p() for p in player_field]
         self.board = board
         self.seed = random.seed(seed)
         self.randomize_players = randomize_players
@@ -128,17 +128,15 @@ class Simulation:
         :return:
         tuple (num_moves, 'player_type')
         """
+        has_won = False
 
-        players = [player(self.board) for player in self.players]
-        while True:
-            for player in players:
-                if self.board.goal_reached(player.position) is False: # Evt
-                    # skrive motsatt om det reduserer kode
-                    self.turns += 1
-                    player.move()
-                else:
-                    return self.turns, type(player).__name__
+        while has_won is False:
+            for player in self.players:
+                self.turns += 1
+                player.move()
+                has_won = self.board.goal_reached(player.position)
 
+            return self.turns, type(player).__name__
     def run_simulation(self):
         """
         Runs a given number of simulations
