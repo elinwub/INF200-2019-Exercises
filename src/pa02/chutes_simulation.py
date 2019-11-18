@@ -9,7 +9,7 @@ import random
 
 class Board:
     std_goal = 90
-    std_board = {1: 40, 8: 10, 36: 52, 43: 62, 49: 79, 65: 82, 68: 85,
+    std_board = {1 : 40, 8: 10, 36: 52, 43: 62, 49: 79, 65: 82, 68: 85,
                  24: 5, 33: 3, 42: 30, 56: 37, 64: 27, 74: 12, 87: 70}
 
     def __init__(self, ladders=None, chutes=None, goal=None):
@@ -113,7 +113,7 @@ class LazyPlayer(Player):
 class Simulation:
     def __init__(self, player_field, board=Board(), seed=1,
                  randomize_players=False):
-        self.players = [p() for p in player_field]
+        self.players = [p() for p in player_field] #evt p(self.board)?  
         self.board = board
         self.seed = random.seed(seed)
         self.randomize_players = randomize_players
@@ -137,6 +137,7 @@ class Simulation:
                 has_won = self.board.goal_reached(player.position)
 
             return self.turns, type(player).__name__
+
     def run_simulation(self):
         """
         Runs a given number of simulations
