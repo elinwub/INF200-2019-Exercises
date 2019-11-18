@@ -123,17 +123,21 @@ class Simulation:
 
     def single_game(self):
         """
-        Runs single game, returns number of moved and the type of player who won
+        Runs single game, returns number of moved and the type of player who
+        won
         :return:
         tuple (num_moves, 'player_type')
         """
 
-        for player in self.players:
-            while self.board.goal_reached(player.position) is False:
-                self.turns += 1
-                player.move()
-
-            return self.turns, str(player)
+        players = [player(self.board) for player in self.players]
+        while True:
+            for player in players:
+                if self.board.goal_reached(player.position) is False: # Evt
+                    # skrive motsatt om det reduserer kode
+                    self.turns += 1
+                    player.move()
+                else:
+                    return self.turns, type(player).__name__
 
     def run_simulation(self):
         """
