@@ -3,13 +3,14 @@
 __author__ = 'Aleksander Eriksen', 'Elin Wølner Bjørnson'
 __email__ = 'jaer@nmbu.no', 'elinbj@nmbu.no'
 
+from collections import defaultdict
 from random import randint
 import random
 
 
 class Board:
     std_goal = 90
-    std_board = {1: 40, 8: 10, 36: 52, 43: 62, 49: 79, 65: 82, 68: 85,
+    std_board = {1 : 40, 8: 10, 36: 52, 43: 62, 49: 79, 65: 82, 68: 85,
                  24: 5, 33: 3, 42: 30, 56: 37, 64: 27, 74: 12, 87: 70}
 
     def __init__(self, ladders=None, chutes=None, goal=None):
@@ -113,34 +114,39 @@ class LazyPlayer(Player):
 class Simulation:
     def __init__(self, player_field, board=Board(), seed=1,
                  randomize_players=False):
-        self.players = [p() for p in player_field]
+        self.players = player_field
         self.board = board
         self.seed = random.seed(seed)
         self.randomize_players = randomize_players
         self.turns = 0
+        self.results = []
         if self.randomize_players is True:
             random.shuffle(self.players)
 
     def single_game(self):
         """
-        Runs single game, returns number of moved and the type of player who won
+        Runs single game, returns number of moved and the type of player who
+        won
         :return:
         tuple (num_moves, 'player_type')
         """
-        has_won = False
 
-        while has_won is False:
-            for player in self.players:
+        players = [p(self.board) for p in self.players]
+        self.turns = 0
+
+        while True:
+            for player in players:
                 self.turns += 1
                 player.move()
-                has_won = self.board.goal_reached(player.position)
+                if self.board.goal_reached(player.position):
+                    return self.turns, type(player).__name__
 
-            return self.turns, type(player).__name__
-
-    def run_simulation(self):
+    def run_simulation(self, n_sim):
         """
         Runs a given number of simulations
         """
+        for _ in range(n_sim):
+            self.results.append(self.single_game())
 
     def get_results(self):
         """
@@ -148,6 +154,7 @@ class Simulation:
         :return:
 
         """
+        return self.results
 
     def winners_per_type(self):
         """
@@ -155,6 +162,11 @@ class Simulation:
         :return:
         dictionary mapping player types to number of wins
         """
+        winner_map = {}
+        winners = [winner[1] for winner in self.results]
+        for items in winners:
+            winner_map[items] = winners.count(items)
+        return winner_map
 
     def durations_per_type(self):
         """
@@ -162,6 +174,11 @@ class Simulation:
         :return:
         dictionary mapping player types to lists of game durations of that type
         """
+        durations = defaultdict(list)
+        for moves, player in self.get_results():
+            durations[player].append(moves)
+
+        return dict(durations)
 
     def players_per_type(self):
         """
@@ -169,3 +186,8 @@ class Simulation:
         :return:
         Dictionary showing how many players of each type participate
         """
+
+        player_counter = {'Player': 0, 'LazyPlayer': 0, 'ResilientPlayer': 0}
+        for player in self.players:
+            player_counter[player.__name__] += 1
+        return player_counter
