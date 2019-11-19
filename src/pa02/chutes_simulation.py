@@ -135,8 +135,8 @@ class Simulation:
         self.turns = 0
 
         while True:
+            self.turns += 1
             for player in players:
-                self.turns += 1
                 player.move()
                 if self.board.goal_reached(player.position):
                     return self.turns, type(player).__name__
