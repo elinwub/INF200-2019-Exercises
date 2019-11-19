@@ -3,6 +3,7 @@
 __author__ = 'Aleksander Eriksen', 'Elin Wølner Bjørnson'
 __email__ = 'jaer@nmbu.no', 'elinbj@nmbu.no'
 
+from collections import defaultdict
 from random import randint
 import random
 
@@ -118,7 +119,7 @@ class Simulation:
         self.seed = random.seed(seed)
         self.randomize_players = randomize_players
         self.turns = 0
-        self.results = None
+        self.results = []
         if self.randomize_players is True:
             random.shuffle(self.players)
 
@@ -140,16 +141,12 @@ class Simulation:
                 if self.board.goal_reached(player.position):
                     return self.turns, type(player).__name__
 
-
-
-
     def run_simulation(self, n_sim):
         """
         Runs a given number of simulations
         """
-        self.results = [self.single_game() for _ in range(n_sim)]
-
-
+        for _ in range(n_sim):
+            self.results.append(self.single_game())
 
     def get_results(self):
         """
@@ -177,6 +174,11 @@ class Simulation:
         :return:
         dictionary mapping player types to lists of game durations of that type
         """
+        durations = defaultdict(list)
+        for moves, player in self.get_results():
+            durations[player].append(moves)
+
+        return dict(durations)
 
     def players_per_type(self):
         """
@@ -184,3 +186,8 @@ class Simulation:
         :return:
         Dictionary showing how many players of each type participate
         """
+
+        player_counter = {'Player': 0, 'LazyPlayer': 0, 'ResilientPlayer': 0}
+        for player in self.players:
+            player_counter[player.__name__] += 1
+        return player_counter
