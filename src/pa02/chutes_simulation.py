@@ -118,6 +118,7 @@ class Simulation:
         self.seed = random.seed(seed)
         self.randomize_players = randomize_players
         self.turns = 0
+        self.results = None
         if self.randomize_players is True:
             random.shuffle(self.players)
 
@@ -130,6 +131,7 @@ class Simulation:
         """
 
         players = [p(self.board) for p in self.players]
+        self.turns = 0
 
         while True:
             for player in players:
@@ -139,10 +141,15 @@ class Simulation:
                     return self.turns, type(player).__name__
 
 
-    def run_simulation(self):
+
+
+    def run_simulation(self, n_sim):
         """
         Runs a given number of simulations
         """
+        self.results = [self.single_game() for _ in range(n_sim)]
+
+
 
     def get_results(self):
         """
@@ -150,6 +157,7 @@ class Simulation:
         :return:
 
         """
+        return self.results
 
     def winners_per_type(self):
         """
@@ -157,6 +165,11 @@ class Simulation:
         :return:
         dictionary mapping player types to number of wins
         """
+        winner_map = {}
+        winners = [winner[1] for winner in self.results]
+        for items in winners:
+            winner_map[items] = winners.count(items)
+        return winner_map
 
     def durations_per_type(self):
         """
