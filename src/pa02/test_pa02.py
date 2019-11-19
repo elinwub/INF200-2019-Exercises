@@ -63,7 +63,7 @@ class TestBoard:
         assert zero == 0
 
 
-class TestPlayer:
+class TestPlayerTypes:
     def test_player_position_changes(self):
         """
         Tests that player position changes after a move
@@ -72,8 +72,6 @@ class TestPlayer:
         p.move()
         assert p.position != 0
 
-
-class TestResilientPlayer:
     def test_uses_standard_board_if_not_added(self):
         """
         Tests that ResilientPlayer can move if a board is not added
@@ -81,8 +79,6 @@ class TestResilientPlayer:
         r = cs.ResilientPlayer()
         r.move()
 
-
-class TestLazyPlayer:
     def test_uses_standard_board_if_not_added(self):
         """
         Tests that LazyPlayer can move if a board is not added
@@ -90,6 +86,34 @@ class TestLazyPlayer:
         l = cs.LazyPlayer()
         l.move()
 
+
+
+class TestSimulation:
+
+    def test_same_winner_single_game_with_given_seed(self):
+        """
+        Test if the seed works, giving the same winners
+        """
+        players = [cs.Player, cs.LazyPlayer]
+        sim = cs.Simulation(player_field=players, seed=1)
+        winner = sim.single_game()
+        sim2 = cs.Simulation(player_field=players, seed=1)
+        test_winner = sim2.single_game()
+
+        assert winner == test_winner
+
+
+
+    def test_known_winner_in_single_game_with_given_seed(self):
+        """
+        Tests if the winner is same as a given winner, with given seed
+        """
+        players = [cs.Player, cs.LazyPlayer]
+        sim = cs.Simulation(player_field=players, seed=1)
+        winner = sim.single_game()
+        test_winner = (29, 'Player')
+
+        assert winner == test_winner
 
 
 
