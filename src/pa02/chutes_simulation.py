@@ -124,7 +124,7 @@ class ResilientPlayer(Player):
 class LazyPlayer(Player):
     def __init__(self, board=Board(), dropped_steps=1):
         """
-        Initialise Lazyplayer
+        Initialise LazyPlayer
         Parameters
         ----------
         board: class

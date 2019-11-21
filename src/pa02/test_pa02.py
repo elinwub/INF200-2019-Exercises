@@ -4,12 +4,10 @@ __author__ = 'Aleksander Eriksen', 'Elin Wølner Bjørnson'
 __email__ = 'jaer@nmbu.no', 'elinbj@nmbu.no'
 
 import chutes_simulation as cs
-import random
 import pytest
 
 
 class TestBoard:
-
     def test_only_one_input(self):
         """
         Tests if we get get standard board if we only have one input
@@ -72,24 +70,22 @@ class TestPlayerTypes:
         p.move()
         assert p.position != 0
 
-    def test_uses_standard_board_if_not_added(self):
+    def test_uses_standard_board_if_not_added_resilient(self):
         """
         Tests that ResilientPlayer can move if a board is not added
         """
         r = cs.ResilientPlayer()
         r.move()
 
-    def test_uses_standard_board_if_not_added(self):
+    def test_uses_standard_board_if_not_added_lazy(self):
         """
         Tests that LazyPlayer can move if a board is not added
         """
-        l = cs.LazyPlayer()
-        l.move()
-
+        lp = cs.LazyPlayer()
+        lp.move()
 
 
 class TestSimulation:
-
     def test_same_winner_single_game_with_given_seed(self):
         """
         Test if the seed works, giving the same winners
@@ -102,8 +98,6 @@ class TestSimulation:
 
         assert winner == test_winner
 
-
-
     def test_known_winner_in_single_game_with_given_seed(self):
         """
         Tests if the winner is same as a given winner, with given seed
@@ -114,6 +108,3 @@ class TestSimulation:
         test_winner = (29, 'Player')
 
         assert winner == test_winner
-
-
-
