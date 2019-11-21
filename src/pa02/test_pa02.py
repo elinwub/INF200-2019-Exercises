@@ -76,6 +76,8 @@ class TestPlayerTypes:
         """
         r = cs.ResilientPlayer()
         r.move()
+        assert r.position != 0
+
 
     def test_uses_standard_board_if_not_added_lazy(self):
         """
@@ -83,6 +85,7 @@ class TestPlayerTypes:
         """
         lp = cs.LazyPlayer()
         lp.move()
+        assert lp.position != 0
 
 
 class TestSimulation:
@@ -108,3 +111,47 @@ class TestSimulation:
         test_winner = (29, 'Player')
 
         assert winner == test_winner
+
+
+    def test_randomize_players(self):
+        """
+        Tests if the shuffle works, and gives different result with same seed
+        """
+        p = [cs.Player, cs.Player, cs.ResilientPlayer, cs.ResilientPlayer,
+                          cs.ResilientPlayer, cs.LazyPlayer]
+        sim1 = cs.Simulation(p, randomize_players=True)
+        sim2 = cs.Simulation(p, randomize_players=False)
+
+        sim1.run_simulation(10)
+        sim2.run_simulation(10)
+
+        assert sim1.get_results() is not sim2.get_results()
+
+
+    def test_players_per_type_is_zero(self):
+        """
+        Tests if no players, gives a dictionary without players in the counter
+        """
+
+        player_types = {'Player': 0, 'LazyPlayer': 0, 'ResilientPlayer': 0}
+        p = []
+        sim = cs.Simulation(p)
+
+        assert sim.players_per_type() == player_types
+
+
+    def test_players_per_type_is_one(self):
+        """
+        Tests if we have one of each players
+        """
+
+        player_types = {'Player': 1, 'LazyPlayer': 1, 'ResilientPlayer': 1}
+        p = [cs.Player, cs.LazyPlayer, cs.ResilientPlayer]
+        sim = cs.Simulation(p)
+
+        assert sim.players_per_type() == player_types
+
+
+
+
+
